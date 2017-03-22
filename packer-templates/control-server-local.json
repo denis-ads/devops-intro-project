@@ -124,7 +124,7 @@
         "type": "vagrant",
         "except": ["googlecompute", "digitalocean"],
         "compression_level": "9",
-        "output": "../output/{{.Provider}}/control-{{ user `PACKER_BOX_NAME` }}.box"
+        "output": "jenkins/control-{{ user `PACKER_BOX_NAME` }}.box"
       }
     ]
   ]

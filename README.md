@@ -9,15 +9,39 @@ After installing the required tools, you will need to ensure that your computer 
 
 * Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 * Install [Vagrant](https://www.vagrantup.com/downloads.html)
+	dnf install vagrant
+	dnf install libvrt
+
 * Install [Packer](https://www.packer.io/downloads.html)
+* Fedora 24 https://copr.fedorainfracloud.org/coprs/jstribny/packer/
+	sudo dnf copr enable jstribny/packer && sudo dnf install packer
+	NOTE: packer command was renamed to packerio to avoid conflicts on Fedora.
+
+   git --version
+   dnf install vagrant
+   sudo dnf install vagrant
+   sudo dnf install packer
+   sudo dnf copr enable jstribny/packer && sudo dnf install packer
+   cd ambienteJava/
+   mkdir devops
+   cd devops/
+
+   packerio -v
+   vagrant -v
+
 * Fork this repo to your own account
 * Clone the forked repo to your local machine using this command: `git clone http://github.com/<account-name>/devops-intro-project devops`, replacing `<account-name>` with your GitHub username.
 
 ## Part I: Building a box with Packer
 
 From the packer-templates directory on your local machine:
+ cd devops-intro-project/
+ cd packer-templates/
 
-* Run `packer build -only=virtualbox-iso application-server.json`. You may see various timeouts and errors, as shown below. If you do, retry the command until the ISO download succeeds:
+* Run `packerio build -only=virtualbox-iso application-server.json`. You may see various timeouts and errors, as shown below. If you do, retry the command until the ISO download succeeds:
+
+
+* Jenkins local `packerio build -only=virtualbox-iso control-server-local.json`
 
 ```
 read: operation timed out
@@ -33,7 +57,12 @@ Build 'virtualbox-iso' errored: ISO download failed.
 ```
 
 * Run `cd virtualbox`
-* Run `vagrant box add ubuntu-14.04.4-server-amd64-appserver_virtualbox.box --name devops-appserver`
+* Run `vagrant box add ubuntu-14.04.5-server-amd64-appserver_virtualbox.box --name devops-appserver`
+* Run `vagrant up`
+* Run `vagrant ssh` to connect to the server
+* 
+* Run `cd jenkins`
+* Run `vagrant box add control-ubuntu-14.04.5-server-amd64.box --name devops-jenkins`
 * Run `vagrant up`
 * Run `vagrant ssh` to connect to the server
 
@@ -41,7 +70,7 @@ Build 'virtualbox-iso' errored: ISO download failed.
 ## Part II: Cloning, developing, and running the web application
 
 * On your local machine go to the root directory of the cloned repository 
-* Run `git clone https://github.com/chef/devops-kungfu.git devops-kungfu`
+* Run `git clone https://github.com/denis-ads/devops-kungfu.git devops-kungfu`
 * Open http://localhost:8080 from your local machine to see the app running.
 * In the VM, run `cd devops-kungfu`
 * To install app specific node packages, run `sudo npm install`. You may see several errors; they can be ignored for now.
